@@ -1,0 +1,1 @@
+from django import formsfrom stock.models import sharedef sharelist():	shares = share.objects.all()	sharelist = []	for share in shares:		sharelist.append((share.id,share.name))		return sharelist	class BidForm(forms.Form):    quantity = forms.IntegerField()    bid = forms.DeciamlField(decimal_places=2,max_digits=15)    shares = forms.ChoiceField(choices=sharelist())

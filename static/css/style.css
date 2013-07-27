@@ -1,0 +1,20 @@
+html, body {
+  height: 100%;
+  background-attachment: fixed
+}
+
+
+#main {
+  overflow:auto;
+  padding-bottom:150px; /* this needs to be bigger than footer height*/
+}
+
+.footer {
+  position: fixed;
+   /* negative value of footer height */
+  background-color: #020202;	
+  bottom:0;
+  clear:both;
+  padding-top:8px;
+  width: 100%;	
+} 

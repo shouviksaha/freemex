@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+
+
+{% block content%}
+
+
+<div class=" well pagination-centered lead">
+
+<form action='/eod/' method='POST'>
+{% csrf_token %}
+<input type='password' name='password'></input>
+<input type='submit'>Do not press</input>
+</form>
+
+
+</div>
+
+
+{%endblock%}

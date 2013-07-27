@@ -1,0 +1,195 @@
+{% extends "base.html" %}
+
+{%block content%}
+
+
+<center><h2 style="font-size:25px">Remaining Balance: <span style="color: #090">{{userMoney}}</span></h2>
+</center>
+
+	
+<h2 style="font-size:22px">Current Holdings</h2>
+
+
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Share Name</th>
+			<th>Buying Price</th>
+			<th>Current Price</th>
+            <th>No. Of Shares</th>
+			<th>Profit/Loss</th>
+        </tr>
+    </thead>
+	
+    <tbody>	
+{% for share in currentHoldings %}
+	<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{share.share_name}}</td>
+		<td>{{share.buying_price|floatformat:2}}</td>
+		<td>{{share.current_price}}</td>
+		<td>{{share.quantity}}</td>
+		<td>{{share.profit|floatformat:2}}</td>
+	</tr>
+	  {% empty %}
+  
+  You dont have any shares. Go to <a href="/marketwatch/">marketwatch</a> to buy some!
+{% endfor %}
+</table>	
+
+<h3 style="font-size:22px">Pending Buy Orders</h3>
+
+
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Share Name</th>
+			<th>Bid Value</th>
+            <th>No. Of Shares</th>
+			<th>Modify</th>
+        </tr>
+    </thead>
+	{% for share in pendingBids %}
+    <tbody>	
+
+	<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{share.share_name}}</td>
+		<td>{{share.price}}</td>
+		<td>{{share.quantity}}</td>
+		<td><a href="#{{share.transaction_id}}bidModal" role="button" class="btn" data-toggle="modal" style="float: left">Modify</a><form action="/deletebid/" method="POST" class="form-inline" style="height: 0px; width: 0px">{% csrf_token %}<input type="hidden" name="transaction_id" value="{{share.transaction_id}}"><button type="submit" class="btn" style="margin-left:13px">Delete</button></form> </td>
+		
+	</tr>
+  {% empty %}
+  
+  No bids pending
+{% endfor %}
+
+</table>
+<h3 style="font-size:22px"> Pending Sell Orders</h3> 
+
+
+<table class="table table-striped table-bordered table-condensed">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Share Name</th>
+			<th>Offer Value</th>
+            <th>No. Of Shares</th>
+			<th>Modify</th>
+        </tr>
+    </thead>
+{% for share in pendingOffers %}	
+    <tbody>	
+
+	<tr>
+		<td>{{forloop.counter}}</td>
+		<td>{{share.share_name}}</td>
+		<td>{{share.price}}</td>
+		<td>{{share.quantity}}</td>
+		<td><a href="#{{share.transaction_id}}offerModal" role="button" class="btn" data-toggle="modal" style="float: left">Modify</a> <form action="/deleteoffer/" method="POST" class="form-inline" style="height: 0px; width: 0px"> {% csrf_token %}<input type="hidden" name="transaction_id" value="{{share.transaction_id}}"><button type="submit" class="btn" style="margin-left:13px">Delete</button></form> </td>
+	</tr>
+  {% empty %}
+  
+  No offers pending
+{% endfor %}
+</table>	
+
+
+{% for share in pendingOffers %}
+
+<div id="{{share.transaction_id}}offerModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Trade" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 style="font-size:25px" id="Trade">Modify Offer</h3>
+	<h5> Offer Range: {{share.min}} - {{share.price}}</h5>
+  </div>
+  <div class="modal-body">
+	<form action="/offermodify/" method="POST"class="form-horizontal">
+	{% csrf_token %}
+	      <input type="hidden" name="transaction_id" value="{{share.transaction_id}}">
+		  <input type="hidden" name="share_id" value="{{share.share_id}}">
+  <div class="control-group">
+    <label class="control-label" for="price">Quote</label>
+    <div class="controls" >
+      <input type="number" name = "quote" step="0.05" style = "height:40px"  min="{{share.min}}" max="{{share.max}}" value="{{share.price}}" required="true" id="quote" >
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="quantity">Quantity</label>
+    <div class="controls">
+      <input type="number" name="quantity" min="1" max="{{share.max_share}}" "required="true" style = "height:40px" value="{{share.quantity}}" id="quantity" >
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Modify Offer</button>
+
+    </div>
+  </div>
+</form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
+
+{% endfor %}
+
+
+
+
+
+
+{% for share in pendingBids %}
+
+<div id="{{share.transaction_id}}bidModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="Trade" aria-hidden="true">
+  <div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">x</button>
+    <h3 style="font-size:25px" id="Trade">Modify Bid</h3>
+	<h5> Bid Range: {{share.min}} - {{share.max}}</h5>
+  </div>
+  <div class="modal-body">
+	<form action="/bidmodify/" method="POST"class="form-horizontal">
+	{% csrf_token %}
+	      <input type="hidden" name="transaction_id" value="{{share.transaction_id}}">
+		  <input type="hidden" name="share_id" value="{{share.share_id}}">
+  <div class="control-group">
+    <label class="control-label" for="price">Quote</label>
+    <div class="controls" >
+      <input type="number" name = "quote" step="0.01" style = "height:40px"  min="{{share.min}}" max="{{share.max}}" value="{{share.price}}" required="true" id="quote" >
+    </div>
+  </div>
+  <div class="control-group">
+    <label class="control-label" for="quantity">Quantity</label>
+    <div class="controls">
+      <input type="number" name="quantity" "required="true" style = "height:40px" value="{{share.quantity}}" id="quantity" >
+    </div>
+  </div>
+  <div class="control-group">
+    <div class="controls">
+      <button type="submit" class="btn">Modify Bid</button>
+	  
+
+    </div>
+  </div>
+</form>
+  </div>
+  <div class="modal-footer">
+    <button class="btn" data-dismiss="modal" aria-hidden="true">Close</button>
+  </div>
+</div>
+
+
+
+{% endfor %}
+
+
+
+
+
+{%endblock%}

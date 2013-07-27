@@ -1,0 +1,8 @@
+{% load humanize %}
+
+Follow this link to activate your freemex account.
+
+http://freemex.mkti.in/accounts/activate/{{ activation_key }}/
+
+The account will expire automatically in {{ expiration_days|apnumber }} days,
+if it is not activated.

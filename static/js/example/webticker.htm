@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>jQuery webTicker - Jonathan Mifsud</title>
+
+<meta name="description" content=" ">
+<meta name="keywords" content=" ">
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+<script type="text/javascript" src="../jquery.webticker.js"></script>
+
+
+<link rel="stylesheet" href="assets/webticker.css" type="text/css" media="screen"> 
+<script type="text/javascript">
+$(function(){
+	$("#webticker").webTicker();
+	$("#webticker2").webTicker({travelocity: 0.2, direction: -1});
+	
+	$("#stop").click(function(){
+		$("#webticker").webTicker('stop');
+	});
+	
+	$("#continue").click(function(){
+		$("#webticker").webTicker('cont');
+	});
+	
+	$("#stop2").click(function(){
+		$("#webticker2").webTicker('stop');
+	});
+	
+	$("#continue2").click(function(){
+		$("#webticker2").webTicker('cont');
+	});
+});
+</script>
+
+
+
+<link rel="stylesheet" type="text/css" href="./jQuery liScroll - a jQuery News Ticker_files/jquery.syntax.core.css"><link rel="stylesheet" type="text/css" href="./jQuery liScroll - a jQuery News Ticker_files/jquery.syntax.brush.html.css"><link rel="stylesheet" type="text/css" href="./jQuery liScroll - a jQuery News Ticker_files/jquery.syntax.brush.css.css"><link rel="stylesheet" type="text/css" href="./jQuery liScroll - a jQuery News Ticker_files/jquery.syntax.layout.list.css"></head>
+<body style='margin-left:100px'>
+<h1>jQuery - webTicker v1.3 example</h1>
+<!-- first ticker -->
+<ul id="webticker" >	
+					<li >
+						My First News Item
+					</li>
+					<li >
+						My Second News Item
+					</li>
+					<li >
+						My Third News Item
+					</li>
+					<li >
+						My Fourth News Item
+					</li>
+					<li >
+						My Fifth News Item
+					</li>
+					<li >
+						My Sixth News Item
+					</li>
+					<li >
+						My Seventh News Item
+					</li>
+					<li >
+						My Eighth News Item
+					</li>
+					<li >
+						My Ninth News Item
+					</li>
+					<li >
+						My Tenth News Item
+					</li>
+</ul>
+
+<ul id="webticker2">	
+					<li >
+						My First News Item
+					</li>
+					<li >
+						My Second News Item
+					</li>
+					<li >
+						My Third News Item
+					</li>
+					<li >
+						My Fourth News Item
+					</li>
+					<li >
+						My Fifth News Item
+					</li>
+					<li >
+						My Sixth News Item
+					</li>
+					<li >
+						My Seventh News Item
+					</li>
+					<li >
+						My Eighth News Item
+					</li>
+					<li >
+						My Ninth News Item
+					</li>
+					<li >
+						My Tenth News Item
+					</li>
+</ul>
+
+<button id='stop'>Stop First Ticker</button>
+<button id='continue'>Continue First Ticker</button>
+<button id='stop2'>Stop Second Ticker</button>
+<button id='continue2'>Continue Second Ticker</button>
+
+</div>
+
+</body></html>

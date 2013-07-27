@@ -1,0 +1,254 @@
+<html>
+<head>
+    <title>Freemex</title>
+	
+{%block head%}
+<script src="/static/js/jquery.min.js"></script>
+<script src="/static/js/amcharts/amstock.js"></script>
+<link href="/static/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" href="/static/css/font-awesome.min.css">
+<link href="/static/css/style.css" rel="stylesheet" type="text/css" />
+<link href="/static/css/bootstrap-responsive.css" rel="stylesheet" type="text/css" />
+<link href="/static/js/amcharts/style.css" rel="stylesheet" type="text/css" />
+<script src="/static/js/bootstrap.js"></script>
+
+
+{%endblock%}	
+
+
+
+</head>
+
+  <div class="container">
+  <div class="span9 pull-right">
+ <div class="navbar navbar-fixed-top">
+      <div class="navbar-inner">
+        <div class="container">
+          <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="brand" href="/">Freemex</a>
+          <div class="nav-collapse collapse">
+            <ul class="nav">
+              
+              <li class="">
+                <a href="/marketwatch/">Marketwatch</a>
+              </li>
+			  {% if request.session.login_id %}
+			  <li class="">
+                <a href="/portfolio/">Portfolio</a>
+              </li>
+              <li class="">
+                <a href="/history/">Transaction History</a>
+              </li>
+
+              <li >
+                <a href="/leaderboard/">LeaderBoard</a>
+              </li>
+                			                 <li class="">
+                <a href="/faq/">FAQ</a>
+              </li>
+          
+			<li class="pull-right" id="profile">
+			
+             <a> Hi there, <strong>{{request.user.username}}</strong> </a>
+           
+           </li>
+		   <li>
+			<a href="/accounts/logout/">Logout</a>
+			</li>
+			<li class="notifications dropdown"> 
+  <a class="dropdown-toggle inverted " id="dLabel" role="button"  data-toggle="dropdown" href="#" data-target="#"><i class="icon-bell"></i>Notification</a>
+  <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+  </ul>
+</li>
+		   
+  {% else %}
+  			                 <li class="">
+                <a href="/faq/">FAQ</a>
+              </li>
+          
+  <li ><a href="/accounts/login">Login</a></li>
+  <li ><a href="/accounts/register">Register</a></li>
+		   
+
+	{% endif %}
+
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+   </div>
+  </div>
+  <div id="wrap">
+  <div class="container main" style="margin-top:5%">
+   <div class="row-fluid">
+   
+  <div id="marqueeborder" style= "margin-top:10px"onmouseover="pxptick=0" onmouseout="pxptick=scrollspeed">
+<div id="marqueecontent">
+
+
+
+</div>
+</div>
+
+	
+
+	
+  {%block content%}
+  
+  
+  {% endblock %}
+
+</div>
+</div>
+</div>
+  {%block js%}
+
+
+
+{% endblock %}
+
+   <div style="height: 50px; width: 100%"> </div>
+   <footer class="footer">
+      <div class="container">
+        <p class="pull-right"><a href="#">Back to top</a></p>
+        <p>Designed and built by Team GNU/Linux Users' Group</p>
+        </div>
+   </footer>
+ 
+  
+  
+<style type="text/css">
+#marqueeborder {
+	color: #cccccc;
+	background-color: #000000;
+	position:relative;
+	height:25px; 
+	overflow:hidden;
+	font-size: 1em;
+}
+#marqueecontent {
+	position:absolute;
+	left:0px;
+	line-height:20px;
+	white-space:nowrap;
+}
+.stockbox {
+	margin:0 10px;
+}
+.stockbox a {
+	color: #cccccc;
+}
+</style>
+
+<script type="text/javascript">
+
+	// Original script by Walter Heitman Jr, first published on http://techblog.shanock.com
+
+	// Set an initial scroll speed. This equates to the number of pixels shifted per tick
+	var scrollspeed=2;
+	var pxptick=scrollspeed;
+
+	function startmarquee(){
+		// Make a shortcut referencing our div with the content we want to scroll
+		marqueediv=document.getElementById("marqueecontent");
+		// Get the total width of our available scroll area
+		marqueewidth=document.getElementById("marqueeborder").offsetWidth;
+		// Get the width of the content we want to scroll
+		contentwidth=marqueediv.offsetWidth;
+		// Start the ticker at 50 milliseconds per tick, adjust this to suit your preferences
+		// Be warned, setting this lower has heavy impact on client-side CPU usage. Be gentle.
+
+		lefttime=setInterval("scrollmarquee()",50);
+	}
+
+	function scrollmarquee(){
+		// Check position of the div, then shift it left by the set amount of pixels.
+		temp=(2450*(-1))
+		if (parseInt(marqueediv.style.left)>temp)
+			marqueediv.style.left=parseInt(marqueediv.style.left)-pxptick+"px";
+		// If it's at the end, move it back to the right.
+		else
+			marqueediv.style.left=parseInt(marqueewidth)+"px";
+	}
+
+	
+	{%block mjs%}
+	window.onload=startmarquee;
+  
+  {% endblock %}
+  
+
+  $.ajax({
+        url:"/marquee/",
+        success:function(result){
+            $("#marqueecontent").html(result);
+           
+        }
+		});
+
+
+
+	
+var result = "";
+
+$.ajax({
+  url: '/notification/',
+  success:function(data){
+	if(data!=result){
+    $('.dropdown-menu').html(data);
+	$('i').attr('class', 'icon-bell-alt');
+	$('i').attr('style', 'color:#00ffff');
+	result=data;
+	}
+  }
+});
+
+setInterval(function() {
+
+$.ajax({
+  url: '/notification/',
+  success:function(data){
+	if(data!=result){
+    $('.dropdown-menu').html(data);
+	$('i').attr('class', 'icon-bell-alt');
+	$('i').attr('style', 'color:#00ffff');
+	result=data;
+	}
+  }
+});
+
+$.ajax({
+	url:"/marquee/",
+	success:function(result){
+		$("#marqueecontent").html(result);
+	   
+	}
+	});
+
+}, 40000);
+
+$(".dropdown").click(function() {
+	$('i').attr('class', 'icon-bell');
+	$('i').removeAttr('style') 
+});
+</script>
+  
+ <script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-37988275-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script> 

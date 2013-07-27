@@ -1,0 +1,97 @@
+{% extends "base.html" %}
+
+
+{%block content%}
+<div id="holder" style="width:100%; height:400px;"></div>
+
+
+ <script type="text/javascript">
+ var chartData= [
+
+{% for i in list %}
+
+       
+        
+		
+			
+			
+			{date: new Date{{i.date}}, val:{{i.val}}},
+			
+			
+		
+      
+  {% endfor %}     
+];
+
+</script>
+
+
+         <script type="text/javascript">
+        
+            
+            window.onload = function(){
+                var chart = new AmCharts.AmStockChart();
+                chart.pathToImages = "amcharts/javascript/images/";
+				chart.color = "#ffffff";
+                
+                var dataSet = new AmCharts.DataSet();
+                dataSet.dataProvider = chartData;
+                dataSet.fieldMappings = [{fromField:"val", toField:"value"}];   
+                dataSet.categoryField = "date";          
+                chart.dataSets = [dataSet];
+                
+                var stockPanel = new AmCharts.StockPanel();
+                chart.panels = [stockPanel];
+                
+                var legend = new AmCharts.StockLegend();
+                stockPanel.stockLegend = legend;                
+                
+                var panelsSettings = new AmCharts.PanelsSettings();
+                panelsSettings.startDuration = 1;
+                chart.panelsSettings = panelsSettings;   
+                
+                var graph = new AmCharts.StockGraph();
+                graph.valueField = "value";
+                graph.lineThickness = 3;
+				graph.lineColor = '#ffffff';
+                graph.title = "{{name}} Analysis";
+                graph.fillAlphas = .2;
+                stockPanel.addStockGraph(graph);
+
+                
+               var categoryAxesSettings = new AmCharts.CategoryAxesSettings();
+			   categoryAxesSettings.minPeriod = "mm";
+				chart.categoryAxesSettings = categoryAxesSettings;
+                
+                var valueAxesSettings = new AmCharts.ValueAxesSettings();
+                valueAxesSettings .dashLength = 5;
+                chart.valueAxesSettings  = valueAxesSettings;
+                
+                var chartScrollbarSettings = new AmCharts.ChartScrollbarSettings();
+                chartScrollbarSettings.graph = graph;
+                chartScrollbarSettings.graphType = "line";
+                chart.chartScrollbarSettings = chartScrollbarSettings;
+                
+                var chartCursorSettings = new AmCharts.ChartCursorSettings();
+                chartCursorSettings.valueBalloonsEnabled = true;
+                chart.chartCursorSettings = chartCursorSettings;
+                
+                var periodSelector = new AmCharts.PeriodSelector();
+               periodSelector.periods = [{period:"DD", count:1, label:"1 day"},
+                                          {period:"DD", selected:true, count:5, label:"5 days"}
+                                         ];   
+                                                      
+                chart.periodSelector = periodSelector;
+                
+                chart.write("holder");
+            } 
+        </script>  
+  
+ {% endblock %}
+ 
+ 
+ 
+ 	{%block mjs%}
+	addLoadEvent(startmarquee);
+  
+  {% endblock %}

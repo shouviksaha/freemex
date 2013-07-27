@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{%block content%}
+<div class="span10">
+<div class="well offset1" style="margin-top:10px">
+<h2>&nbsp;FAQ</h2>
+
+1. <strong>I bought a share but I did not get it.</strong><br/>
+A. Your bid request has been sent and stored in exchange's queue. As soon as your bid becomes the best bid<br/>
+and as we get an offer which suits your bid, you get your share of stocks. In simpler words, at this moment<br/>
+there is no offer lesser than your bid.<br/>
+<br/>
+2. <strong>I tried to sell a share, but I did not get any money.</strong><br/>
+A. Similarly, your sell/offer request is stored in a queue. As your offer becomes the best offer and then<br/>
+when we get a bid which is more than your offer your share of stocks are sold.<br/>
+<br/>
+3. <strong>I submitted a bid at Rs 100, but got the stocks at Rs 98. How?</strong><br/>
+A. You placed a Limit Order bid and not a Market Order. FreeMex does not support or allow Market Order.<br/>
+Limit Order assures that you get your stocks at your SUITABLE price and not at exact (or best possible) price.<br/>
+Your bid remains unaccessed till someone submits an offer which is lower than your bid. The price at<br/>
+which you get the stocks, that is, the trade price is the AVERAGE of the bid and the offer.<br/>
+<br/>
+4. <strong>I submitted an offer at Rs 100, but the stocks got sold at Rs 102. How?</strong><br/>
+A. You placed a Limit Order offer which assures that you sell your stocks at your SUITABLE price and not at exact<br/>
+price. You sell your stocks only to bids higher than your offer at the average price of the bid and the offer.<br/>
+This price then becomes the LTP (Last Traded Price).<br/>
+<br/>
+5. <strong>I made a transaction on a stock but is not highlighted in the LTP.</strong><br/>
+A. The market is too big to be always affected by your transaction.<br/>
+<br/>
+6. <strong>Price of a stock reached more than my offer price, but my stocks are not yet sold. Vice Versa.</strong><br/>
+A. The price of the stock reflects the Last Traded Price of the transaction and not the order you had placed.<br/>
+And LTP is the average price of bid and offer.<br/>
+<br/><br/><br/><br/>
+</div>
+</div>
+
+
+{% endblock %}
